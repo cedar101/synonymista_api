@@ -53,19 +53,21 @@ class WordCollection(Collection):
         except (TypeError, KeyError):
             self.filter_func = None
         else:
-            try:
-                cond = extra_parameters['cond']
-            except KeyError:
-                self.filter_func = lambda w: w.value == query
-            else:
-                if cond == 'contains':
-                    self.filter_func = lambda w: query in w.value
-                elif cond == 'startswith':
-                    self.filter_func = lambda w: w.value.startswith(query)
-                elif cond == 'endswith':
-                    self.filter_func = lambda w: w.value.endswith(query)
-                else:
-                    self.filter_func = lambda w: w.value == query
+            # cond = extra_parameters.get('cond')
+            self.filter_func = {
+                'contains': lambda w: query in w.value,
+                'startswith': lambda w: w.value.startswith(query),
+                'endswith': lambda w: w.value.endswith(query),
+                'eq': lambda w: w.value == query
+            }[extra_parameters.get('cond', 'eq')]
+            # if cond == 'contains':
+            #     self.filter_func = lambda w: query in w.value
+            # elif cond == 'startswith':
+            #     self.filter_func = lambda w: w.value.startswith(query)
+            # elif cond == 'endswith':
+            #     self.filter_func = lambda w: w.value.endswith(query)
+            # else:
+            #     self.filter_func = lambda w: w.value == query
 
 
 class WordSimilarityCollection(Collection):
