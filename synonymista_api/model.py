@@ -30,18 +30,18 @@ class Word(db.Entity, GetCreateMixin):
     value = Required(str, unique=True)
     similar_to = Set('WordSimilarity', reverse='subject_word')
     similar_from = Set('WordSimilarity', reverse='similar_word')
+    create_at = Required(datetime, default=datetime.now())
+    update_at = Required(datetime, default=datetime.now())
 
 
 class WordSimilarity(db.Entity, GetCreateMixin):
     _table_ = 'word_similarity'
     value = Required(float)
-    src_modified = Optional(bool)
-    dest_modified = Optional(bool)
-    src_confirmed = Optional(bool)
-    dest_confirmed = Optional(bool)
-    update_date = Required(datetime, default=datetime.now())
     subject_word = Required(Word, reverse='similar_to')
     similar_word = Required(Word, reverse='similar_from')
+    create_at = Required(datetime, default=datetime.now())
+    update_at = Required(datetime, default=datetime.now())
+    confirmed = Optional(bool)
 
 
 # @app.cli.command()

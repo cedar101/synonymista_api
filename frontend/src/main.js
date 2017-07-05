@@ -2,14 +2,19 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
-import router from './router'
+// import VueResource from 'vue-resource'
+import axios from 'axios'
+
+// Vue.use(VueResource)
+//
+// Vue.http.options.root = 'http://localhost:5050'
+Vue.prototype.$http = axios
 
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
-  router,
   template: '<App/>',
   components: { App }
 })
